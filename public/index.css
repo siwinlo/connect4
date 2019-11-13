@@ -1,0 +1,62 @@
+body {
+  height: 100%;
+  background-color: #b8b8d1;
+  display: flex;
+  justify-content: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+button {
+  background-color: #5b5f97;
+  width: 4.75em;
+  height: 4.75em;
+  margin: 0.2em;
+  color: #ededed;
+  border-radius: 3em;
+  border: none;
+  padding: 0 auto;
+}
+button:hover {
+  font-weight: 800;
+  background-color: #666666;
+}
+.disc {
+  width: 3em;
+  height: 3em;
+  border: 1px solid #5b5f97;
+  margin: 0.2em 0.2em;
+  border-radius: 3em;
+}
+
+.grid-container {
+  flex: 1;
+}
+
+h1,
+h2 {
+  flex: 1;
+  text-align: center;
+  color: #5b5f97;
+  font-size: 1.5em;
+  font-weight: 400;
+}
+
+.player1 {
+  height: 3em;
+  background-color: white;
+}
+
+.player2 {
+  height: 3em;
+  background-color: black;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0 0 0 0;
+}
