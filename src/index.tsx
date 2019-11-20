@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import { CheckWin } from "./CheckWin";
 // this interface describes the structure of the initial state defined in the component below
 interface AppState {
   grid: number[][];
@@ -21,7 +21,7 @@ class App extends React.Component<{}, AppState> {
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0]
       ],
-      playable: [5, 5, 5, 5, 5, 5, 5],
+      playable: Array(7).fill(5),
       winner: 0,
       player1: true
     };
@@ -42,105 +42,18 @@ class App extends React.Component<{}, AppState> {
       newPlayable[columnIndex] = rowIndex - 1;
       this.setState({ playable: newPlayable });
 
-      this.checkWin(rowIndex, columnIndex, player);
-
+      if (CheckWin(rowIndex, columnIndex, player, this.state.grid)) {
+        this.setState({ winner: player });
+      }
       // toggle player
       this.setState({ player1: !this.state.player1 });
     }
   };
 
-  checkWin = (row: number, col: number, player: number): void => {
-    let grid = this.state.grid;
-
-    // horizontal
-    const checkHorizontal = (row: number): void => {
-      let line = 0;
-      for (let col = 0; col < 7; col++) {
-        grid[row][col] === player ? line++ : (line = 0);
-        if (line > 3) this.setState({ winner: player });
-      }
-    };
-
-    // vertical: we only need to check downwards
-    if (row < 3) {
-      if (
-        grid[row][col] === player &&
-        grid[row + 1][col] === player &&
-        grid[row + 2][col] === player &&
-        grid[row + 3][col] === player
-      ) {
-        this.setState({ winner: player });
-      }
-    }
-
-    //diagonal
-    const valid = (row: number, column: number): boolean => {
-      if (row < 6 && row > 0 && column > 0 && column < 7) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    const checkDiagonal = (row: number, col: number): void => {
-      let line = 1;
-
-      //up and right
-      for (let i = 1; i < 4; i++) {
-        if (valid(row - i, col + i) && grid[row - i][col + i] === player) {
-          line++;
-        } else {
-          line = 1;
-        }
-        if (line > 3) this.setState({ winner: player });
-      }
-
-      //down and left
-      for (let i = 1; i < 4; i++) {
-        if (valid(row + i, col - i) && grid[row + i][col - i] === player) {
-          line++;
-        } else {
-          line = 1;
-        }
-        if (line > 3) this.setState({ winner: player });
-      }
-
-      //down and right
-      for (let i = 1; i < 4; i++) {
-        if (valid(row + i, col + i) && grid[row + i][col + i] === player) {
-          line++;
-        } else {
-          line = 1;
-        }
-        if (line > 3) this.setState({ winner: player });
-      }
-
-      //up and left
-      for (let i = 1; i < 4; i++) {
-        if (valid(row - i, col - i) && grid[row - i][col - i] === player) {
-          line++;
-        } else {
-          line = 1;
-        }
-        if (line > 3) this.setState({ winner: player });
-      }
-    };
-
-    checkHorizontal(row);
-    checkDiagonal(row, col);
-  };
-
   reset = (): void => {
     this.setState({
-      grid: [
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0]
-      ],
-      playable: [5, 5, 5, 5, 5, 5, 5],
+      grid: this.state.grid.map(row => row.map(disc => 0)),
+      playable: this.state.playable.map(val => 5),
       winner: 0
     });
   };
