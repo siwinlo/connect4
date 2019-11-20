@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { CheckWin } from "./CheckWin";
+
 // this interface describes the structure of the initial state defined in the component below
 interface AppState {
   grid: number[][];
